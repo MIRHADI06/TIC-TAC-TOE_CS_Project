@@ -1,0 +1,93 @@
+#include <iostream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+// Function to display the Tic Tac Toe board
+void displayBoard(const vector<vector<char>>& board) {
+    cout << "\n";
+    cout << "  " << setw(3) << "0" << setw(3) << "1" << setw(3) << "2" << endl;
+    cout << "   -------------" << endl;
+    for (int i = 0; i < 3; ++i) {
+        cout << i << " | ";
+        for (int j = 0; j < 3; ++j) {
+            cout << setw(2) << board[i][j] << setw(2) << " | ";
+        }
+        cout << endl;
+        cout << "   -------------" << endl;
+    }
+    cout << "\n";
+}
+
+// Function to check if a player has won
+bool checkWin(const vector<vector<char>>& board, char player) {
+    // Check rows and columns
+    for (int i = 0; i < 3; ++i) {
+        if (board[i][0] == player && board[i][1] == player && board[i][2] == player)
+            return true;
+        if (board[0][i] == player && board[1][i] == player && board[2][i] == player)
+            return true;
+    }
+    // Check diagonals
+    if (board[0][0] == player && board[1][1] == player && board[2][2] == player)
+        return true;
+    if (board[0][2] == player && board[1][1] == player && board[2][0] == player)
+        return true;
+    return false;
+}
+
+int main() {
+    vector<vector<char>> board(3, vector<char>(3, ' ')); // Initialize the board with empty spaces
+    bool gameOver = false;
+    char currentPlayer = 'X';
+
+    cout << "Welcome to Tic Tac Toe!\n\n";
+
+    while (!gameOver) {
+        // Display the board
+        displayBoard(board);
+
+        // Ask the current player for their move
+        int row, col;
+        cout << "Player " << currentPlayer << "'s turn. Enter row (0-2) and column (0-2): ";
+        cin >> row >> col;
+
+        // Check if the chosen position is valid and not already taken
+        if (row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ') {
+            cout << "Invalid move! Try again." << endl;
+            continue;
+        }
+
+        // Place the player's symbol on the board
+        board[row][col] = currentPlayer;
+
+        // Check if the current player has won
+        if (checkWin(board, currentPlayer)) {
+            displayBoard(board);
+            cout << "Player " << currentPlayer << " wins!" << endl;
+            gameOver = true;
+        } else {
+            // Check for a tie
+            bool isTie = true;
+            for (const auto& row : board) {
+                for (char cell : row) {
+                    if (cell == ' ') {
+                        isTie = false;
+                        break;
+                    }
+                }
+            }
+            if (isTie) {
+                displayBoard(board);
+                cout << "It's a tie!" << endl;
+                gameOver = true;
+            } else {
+                // Switch to the other player
+                currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+            }
+        }
+    }
+
+    return 0;
+}
