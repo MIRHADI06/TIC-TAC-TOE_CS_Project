@@ -331,17 +331,19 @@ void getComputerMove() {
 
    
 };
-
-
 int main() {
     //using srand to genertate random values for computer
     srand(time(0));
+    
     //Declaring a pointer for Game class so we could access functions 
     Game* game;
+    
     //Declaring integer type variable for Gamemode
     int gameMode;
+    
     //Declaring character type variable for Gamemode
     char playerSign, computerSign;
+    
     //Using this to change the colour of compiler
     system("COLOR 4");
     cout<<  "\t\t       WELCOME TO TIC TAC TOE!"<<endl;
@@ -351,6 +353,8 @@ int main() {
     cout << "\t\t\t-------------------" << endl;
     cout << "\t\t\t|  O  |\t X  | TOE |" << endl;
     cout << endl;
+
+    do {
 
     //Taking input from the user for play the mode
     cout<<"PLEASE CHOOSE YOUR MODE"<<endl;
@@ -425,5 +429,20 @@ int main() {
     }
     //Deleting the dynamically allocated memory
     delete game;
+        
+        // Asking if player wants to play again
+        char choice;
+        cout << "Do you want to play again? (y/n): ";
+        cin >> choice;
+        // If the choice is not 'y' or 'Y'   the loop terminates
+        if (choice != 'y' && choice != 'Y') {
+            break;
+        }
+    } while (true);
+
     return 0;
 }
+
+
+
+
